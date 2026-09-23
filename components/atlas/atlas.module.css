@@ -1,0 +1,600 @@
+.root {
+  --ground: #f4f3f0;
+  --surface: #fbfaf8;
+  --ink: #171716;
+  --muted: #76736c;
+  --faint: #a9a69e;
+  --line: #dfddd7;
+  --chip: #eae8e3;
+  --inverse-ink: #fbfaf8;
+  --shadow: 0 18px 50px -20px rgba(30, 28, 24, 0.35);
+  --sans: var(--atlas-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: var(--atlas-serif), "Iowan Old Style", Georgia, serif;
+  --mono: var(--atlas-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--ground);
+  color: var(--ink);
+  font: 14px/1.45 var(--sans);
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  .root {
+    --ground: #121211;
+    --surface: #1a1a18;
+    --ink: #f1f0ec;
+    --muted: #9c998f;
+    --faint: #6d6a63;
+    --line: #2c2b28;
+    --chip: #252422;
+    --inverse-ink: #121211;
+    --shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.7);
+    color-scheme: dark;
+  }
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+/* :where() keeps this reset at zero class specificity so .btn/.tag/.chip win. */
+:where(.root) button {
+  font: inherit;
+  color: inherit;
+}
+
+.root :focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* canvas */
+.stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dragging {
+  cursor: grabbing;
+}
+
+.tile {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: opacity 0.35s ease, filter 0.35s ease;
+  will-change: transform;
+}
+
+.tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.cap {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  font: 500 11px/1 var(--sans);
+  color: #fff;
+  background: rgba(20, 20, 18, 0.55);
+  backdrop-filter: blur(6px);
+  padding: 5px 7px;
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.18s, transform 0.18s;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .tile:hover .cap {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.dim {
+  opacity: 0.14;
+  filter: grayscale(0.6);
+}
+
+.current {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.empty p {
+  margin: 0 0 12px;
+  font: 400 28px/1.1 var(--serif);
+}
+
+.empty button {
+  pointer-events: auto;
+}
+
+/* top bar */
+.bar {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 14px);
+  left: 16px;
+  right: 16px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.bar > * {
+  pointer-events: auto;
+}
+
+.mark {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 14px 8px;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+.mark b {
+  font: italic 400 21px/1 var(--serif);
+  letter-spacing: -0.01em;
+}
+
+.mark span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.search {
+  flex: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 6px 0 16px;
+  box-shadow: var(--shadow);
+}
+
+.field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: 15px var(--sans);
+  padding: 10px 0;
+  outline: none;
+}
+
+.field input::placeholder {
+  color: var(--faint);
+}
+
+.count {
+  font: 500 12px var(--mono);
+  color: var(--muted);
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px;
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 12.5px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  color: var(--ink);
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--inverse-ink);
+  border-color: var(--ink);
+}
+
+.spacer {
+  width: 150px;
+  flex: none;
+}
+
+/* intro note */
+.note {
+  position: absolute;
+  left: 16px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  z-index: 10;
+  max-width: 330px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+
+.note h2 {
+  margin: 0 0 4px;
+  font: 400 20px/1.15 var(--serif);
+}
+
+.note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  text-wrap: pretty;
+}
+
+.noteClose {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 0;
+  background: none;
+  color: var(--faint);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px;
+}
+
+/* focus panel */
+.panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  width: min(440px, 100%);
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  box-shadow: -30px 0 60px -40px rgba(0, 0, 0, 0.35);
+  overflow-y: auto;
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 20px calc(env(safe-area-inset-bottom, 0px) + 28px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.panel > * {
+  flex: none;
+}
+
+.panelClosed {
+  transform: translateX(105%);
+  visibility: hidden;
+  transition: transform 0.25s ease, visibility 0s 0.25s;
+}
+
+.phead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.phead h1 {
+  margin: 0;
+  font: 400 30px/1.05 var(--serif);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.close {
+  flex: none;
+  border: 1px solid var(--line);
+  background: var(--ground);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.tag {
+  font: 500 11px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: var(--chip);
+  border-radius: 4px;
+  padding: 4px 7px;
+  cursor: pointer;
+  border: 0;
+}
+
+.tag:hover {
+  color: var(--ink);
+}
+
+.preview {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--chip);
+}
+
+.preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.dropping::after {
+  content: "Drop to place your screen";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 20, 18, 0.55);
+  color: #fff;
+  font: 400 24px var(--serif);
+}
+
+.busy {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font: 500 11px var(--mono);
+  background: rgba(20, 20, 18, 0.6);
+  color: #fff;
+  padding: 4px 7px;
+  border-radius: 4px;
+}
+
+.sect h3 {
+  margin: 0 0 8px;
+  font: 600 11px var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.uis {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.ui {
+  flex: none;
+  width: 46px;
+  aspect-ratio: 393 / 852;
+  border-radius: 7px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  background: var(--chip);
+}
+
+.ui img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ui[aria-pressed="true"] {
+  border-color: var(--ink);
+}
+
+.uiAdd {
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--faint);
+  font-size: 20px;
+  color: var(--muted);
+  background: none;
+}
+
+.hint {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.root kbd {
+  font: 500 11px var(--mono);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0 4px;
+  background: var(--ground);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn {
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--inverse-ink);
+  border-radius: 999px;
+  padding: 9px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.ghost {
+  background: none;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.status {
+  flex-basis: 100%;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.later {
+  display: grid;
+  gap: 6px;
+}
+
+.later div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  padding: 9px 12px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.later em {
+  font: 500 10.5px var(--mono);
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+.sims {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.sim {
+  border: 0;
+  padding: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--chip);
+  aspect-ratio: 1;
+}
+
+.sim img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s;
+}
+
+.sim:hover img {
+  transform: scale(1.03);
+}
+
+@media (max-width: 720px) {
+  .mark span,
+  .spacer {
+    display: none;
+  }
+
+  .bar {
+    flex-wrap: wrap;
+  }
+
+  .search {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .note {
+    right: 16px;
+    max-width: none;
+  }
+
+  .panel {
+    top: auto;
+    height: 88%;
+    width: 100%;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 18px 18px 0 0;
+  }
+
+  .panelClosed {
+    transform: translateY(105%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panelClosed,
+  .tile,
+  .cap {
+    transition: none;
+  }
+}
