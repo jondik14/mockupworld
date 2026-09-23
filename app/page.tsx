@@ -1,10 +1,6 @@
-import { CatalogView } from "@/components/CatalogView";
-import { buildClusters } from "@/lib/clusters";
-import { getMockups } from "@/lib/mockups";
+import { Atlas } from "@/components/atlas/Atlas";
+import { ATLAS } from "@/lib/atlas";
 
 export default function Home() {
-  const mockups = getMockups();
-  const clusters = buildClusters(mockups);
-
-  return <CatalogView mockups={mockups} clusters={clusters} />;
+  return <Atlas items={ATLAS} />;
 }

@@ -1,37 +1,43 @@
 @AGENTS.md
 
-# Mockupworld — agent rules
+# Atlas (repo: mockupworld): agent rules
 
-Curated catalog of iPhone UI mockups in five scenes. Luke makes the library
-offline; visitors browse → filter → focus → similars → download. Side
-project, not LUNIC's primary product: keep changes tight.
+Endless draggable canvas of iPhone mockups (Public-Work-style). Click →
+closest matches + drop your own screen in. Luke Niccol's side project. Keep
+changes tight. Read `HANDOFF.md` for the decision log before large changes.
+
+## Direction (Luke, 23 Sep 2026; supersedes the earlier "Boss" docs)
+
+- Structure: infinite canvas like cosmos.so/public-work. Not a paged grid.
+- Mockups: the kinds real mockup sites sell (clay, flat lay, floating,
+  hands, lifestyle…). Users must be able to put **their own UI** in.
+- The earlier niche lock (5 environments × 7 ui_types, baked-in UI) is
+  retired. It survives only in the legacy `/catalog` route.
 
 ## Hard boundaries (never cross)
 
 - No public generation: no prompt boxes, `/api/generate`, model pickers,
-  credit UX or "create your own".
-- No Replicate / fal / OpenAI / other model keys in the repo or client.
-- No auth, Stripe or fake checkout until explicitly asked. Hooks/stubs only.
-- Niche lock: iPhone only · environments `desk cafe transit outdoor dark` ·
-  ui_types `home onboarding feed settings paywall empty error`. No Android,
-  desktop or tablet packs.
-- Never fake imagery with CSS phone UIs. Missing image means the pending
-  glyph.
+  credits or "create your own". Placing a user's screen is deterministic
+  (homography + mask) on purpose: AI would redraw their pixels.
+- No model or API keys in the repo or client.
+- No auth, Stripe or fake checkout until Luke asks.
+- Never fake imagery with CSS phone drawings. Mockups are real renders or photos.
 - Don't invent metrics or features Luke didn't ask for.
-
-## Craft
-
-Read `DESIGN.md` before touching UI. In short: imagery first, no purple,
-glass + GSAP on shell chrome only, grid tiles quiet (hover scale ≤ 1.02),
-global CSS stays inside `@layer`.
 
 ## Data
 
-- `data/mockups.json` is the seed/CMS. `npm run validate-seed` must pass.
-- Similarity is deterministic tag overlap (`lib/similarity.ts`). No
-  embeddings or model calls.
-- Images: `public/mockups/{id}.webp`. See `public/mockups/README.md`.
+- `data/atlas.json` + `public/atlas/m/` is the catalog. Every mockup needs
+  an image, a thumb, a screen `quad` (TL, TR, BR, BL px) and a mask PNG.
+- Similarity is deterministic tag overlap in `lib/atlas.ts`. No embeddings.
+
+## Craft
+
+Imagery first, chrome quiet and monochrome, no purple. Tiles stay still
+(opacity dim only). Motion only for drag inertia and the panel slide. Respect
+`prefers-reduced-motion`. In `atlas.module.css`, keep element resets
+inside `:where()` so single-class component styles win.
 
 ## Before pushing
 
-`npm run lint && npm run build && npm run validate-seed` all green.
+`npm run lint && npm run build` green. Click through `/` in a browser:
+drag, search, open a mockup, place a sample screen.

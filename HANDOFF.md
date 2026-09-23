@@ -39,9 +39,21 @@ deterministic warp is exact, instant and free. If AI helps anywhere, it's
 offline scene generation by Luke. The data-model change this implies is that
 every mockup needs `quad` + `mask`.
 
-The Next app on this branch is **unchanged** and still the session-2 design,
-pending Luke's feedback on the prototype. Don't port the prototype into it
-until he confirms the direction.
+Then Luke asked for it **on a live Vercel link to hand to the "grokbot team"**.
+So the prototype was ported into the Next app as the homepage:
+- `/` = Atlas (`components/atlas/*`, `lib/atlas.ts`, `data/atlas.json`,
+  `public/atlas/`). The real site also gets a working **Download** button,
+  which the artifact sandbox couldn't offer.
+- The session-2 catalog moved to `/catalog` (legacy, kept for reference with
+  `/lab`). `data/mockups.json` + `validate-seed` belong to that legacy route.
+- `CLAUDE.md` rewritten for the new direction; `README.md` has deploy steps.
+- **Not deployed from here**: this session has no Vercel credentials. Luke
+  imports the GitHub repo in Vercel once (steps in README) and pushes then
+  auto-deploy.
+
+Open for Luke: feedback on canvas feel, clay style, and which mockup types
+next (hands / lifestyle need a photo or AI-scene pipeline that also outputs
+quad + mask). Product name.
 
 ## State at end of session 2
 

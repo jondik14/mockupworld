@@ -14,9 +14,9 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Mockupworld — iPhone UI, in the wild",
+  title: "Atlas — iPhone mockups",
   description:
-    "A curated, tagged atlas of iPhone UI mockups shot in real-world scenes. Browse by scene and screen type, tap into a cluster of similars, download the one that fits.",
+    "Drag through an endless canvas of iPhone mockups, pull up the closest matches, and drop your own screen in with exact perspective.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

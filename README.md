@@ -1,100 +1,83 @@
-# Mockupworld
+# Atlas (working name): iPhone mockups
 
-**iPhone UI, in the wild.** A curated, tagged catalog of iPhone UI mockups
-shot in five real-world scenes. Browse by scene and screen, tap any mockup
-to pull up its 8–12 closest matches by deterministic tag overlap, download
-the one that fits.
+> Working name. "Mockup World" (mockupworld.co) is an existing mockup site,
+> so the product needs a real name before launch.
 
-Catalog-first: the library is made offline by Luke; visitors browse and
-pick. There is deliberately **no public generation surface** — no prompt
-box, no `/api/generate`, no model keys in the repo or client.
+An endless, draggable canvas of iPhone mockups (structure modelled on
+[Public Work by Cosmos](https://www.cosmos.so/public-work)). Click any
+mockup to open its **closest matches** (deterministic tag overlap, dimmed
+in place on the canvas), then **drop your own screen in**. It's placed
+with exact perspective, so the user's UI pixels are never redrawn.
+
+Live: see the Vercel project (set up below).
+Decision log: `HANDOFF.md`. Agent rules: `CLAUDE.md`.
 
 ## Stack
 
-Next.js 16 (App Router, Turbopack) · React 19 · Tailwind 4 · TypeScript ·
-GSAP · static JSON seed · local images via `next/image`.
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind 4 (legacy pages)
++ CSS Modules (Atlas) · WebGL1 for the screen compositor. No backend, no
+env vars, no API keys.
 
 ## Run
 
 ```bash
 npm install
-npm run dev            # http://localhost:3000   (/lab = design system)
-npm run build          # must stay green
-npm run lint
-npm run validate-seed  # checks data/mockups.json; add -- --missing to list absent images
+npm run dev     # http://localhost:3000
+npm run lint && npm run build
 ```
 
-## Adding real images
+## Routes
 
-1. Export the finished mockup as a portrait `.webp` (~1024×1280, 4:5).
-2. Name it after its id and drop it in `public/mockups/`, e.g.
-   `public/mockups/iphone-desk-paywall-01.webp`.
-3. Rebuild. The card switches from the "pending" glyph to the image and the
-   focus stage's **Download** button goes live. No code changes.
+| Route | What |
+| --- | --- |
+| `/` | Atlas: infinite canvas, search + quick filters, focus panel, drop-your-screen |
+| `/#<mockup-id>` | Deep link straight to a mockup's focus panel |
+| `/catalog` | **Legacy** session-2 catalog (rejected design), kept for reference |
+| `/lab` | **Legacy** design-system showcase for `/catalog` |
 
-`npm run validate-seed -- --missing` prints every filename still expected.
-Full contract: [`public/mockups/README.md`](public/mockups/README.md).
-
-## Editing the catalog
-
-`data/mockups.json` is the whole CMS. Each entry:
-
-```json
-{
-  "id": "iphone-desk-home-01",
-  "title": "Home · Desk",
-  "device": "iphone",
-  "environment": "desk",
-  "uiType": "home",
-  "style": "clean",
-  "mood": "calm",
-  "image": { "src": "/mockups/iphone-desk-home-01.webp", "width": 1024, "height": 1280 }
-}
-```
-
-- `environment`: `desk | cafe | transit | outdoor | dark`
-- `uiType`: `home | onboarding | feed | settings | paywall | empty | error`
-- `style`: `clean | glass | bold | minimal | data-heavy`
-- `mood`: `calm | energetic | premium | playful`
-
-Retag an entry when its real image lands. The current 60 are placeholder
-slots with evenly cycled style/mood, so their similars are only as
-meaningful as those tags. To add a slot, append an entry with the next
-`-NN` for that environment + screen. The validator enforces the id format
-and enums (the enum lists live in both `lib/types.ts` and
-`scripts/validate-seed.mjs`, so change them together).
-
-## How it works
+## How it's built
 
 | Piece | File |
 | --- | --- |
-| Seed loader (+ checks which images exist) | `lib/mockups.ts` |
-| Similarity: `ui_type` 3 · `environment` 2 · `style` 1 · `mood` 1, top 12, score > 0, ties by id | `lib/similarity.ts` |
-| Clusters = `environment × ui_type` | `lib/clusters.ts` |
-| Catalog shell: filters, regions, focus | `components/CatalogView.tsx` |
-| Design system | `components/ds/*`, tokens in `app/globals.css` |
+| Mockup data (tags, size, screen quad) | `data/atlas.json`, typed in `lib/atlas.ts` |
+| Search + similarity (angle 3 · screen 2 · colour 1 · tone 1) | `lib/atlas.ts` |
+| Infinite canvas (imperative, virtualised, drag + inertia + wheel) | `components/atlas/canvas.ts` |
+| Screen placement (homography + mask, WebGL) | `components/atlas/compositor.ts` |
+| UI | `components/atlas/Atlas.tsx`, `FocusPanel.tsx`, `atlas.module.css` |
+| Assets | `public/atlas/m/{id}.webp` (full), `{id}-t.webp` (640px thumb), `{id}-mask.png`; `public/atlas/ui/*.webp` sample screens |
 
-Layout: each environment is a region. Its `ui_type` clusters are packs that
-tile one shared grid (`grid-auto-flow: dense`, each pack spans its card
-count), so a scene reads as one dense block, not rows of strips. The chips
-(max 2 rows, sticky) filter which clusters show and jump the view to the grid.
+### A mockup = image + screen quad + mask
 
-## Motion (GSAP)
+Every mockup needs, alongside its image:
 
-GSAP is used directly (`gsap` + `useEffect`/`useLayoutEffect`), not via
-`@gsap/react`. It's reserved for shell chrome:
+- `quad`: the screen's four corners (TL, TR, BR, BL of the UI) in image pixels
+- a mask PNG: white where the screen is visible, black elsewhere (rounded
+  corners, fingers or other phones in front)
 
-- `PageEnter`: page fade/rise on load
-- `StaggerChildren`: filter chip rows
-- `FocusStage`: overlay + panel open/close, content crossfade on refocus
-- `MagneticButton`: available for shell CTAs; currently unused on the catalog page
+That's all the compositor needs to place any screenshot with correct
+perspective, for 3D renders, AI scenes or photos alike. The current 22 clay
+mockups come from the three.js pipeline in `prototype/render/`, which writes
+all three automatically. See `prototype/README.md`.
 
-Grid tiles never animate beyond a CSS hover (scale ≤ 1.02).
-`prefers-reduced-motion` snaps every GSAP recipe to its end state and zeroes
-CSS transitions globally.
+To add a mockup: add its three files to `public/atlas/m/` and an entry to
+`data/atlas.json`.
+
+## Deploy (Vercel)
+
+No environment variables needed. One-time setup:
+
+1. vercel.com → **Add New… → Project** → import `jondik14/mockupworld`.
+2. Framework: Next.js (auto-detected). Leave build settings at defaults.
+3. Production branch: `main`. Until this work is merged, either set
+   **Settings → Git → Production Branch** to `claude/modest-tesla-a0j3y5` or
+   use that branch's Preview URL.
+
+Every push then deploys automatically (a Preview for branches, Production for
+the production branch).
 
 ## Not in scope (yet)
 
-Auth, Stripe/paywall, CDN (R2/Blob), admin gen queue, free-text search,
-Android/desktop packs. See `DESIGN.md` for the craft bar and `HANDOFF.md`
-for the decision log.
+Accounts, payments, public AI generation (hard no, see `CLAUDE.md`), Figma
+plugin and PSD export (shown as "planned" in the UI), real photographic /
+hand-held mockups (need a generation or photo pipeline that also records
+quad + mask).
