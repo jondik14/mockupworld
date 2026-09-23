@@ -17,6 +17,7 @@ export function buildClusters(mockups: Mockup[]): Cluster[] {
       clusters.push({
         key,
         label: `${uiLabel} · ${envLabel}`,
+        uiLabel,
         environment,
         uiType,
         mockups: members,

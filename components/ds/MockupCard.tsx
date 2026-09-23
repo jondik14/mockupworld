@@ -34,11 +34,10 @@ export function MockupCard({ mockup, onSelect, priority }: MockupCardProps) {
           className="object-cover"
         />
       ) : (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-3 border border-white/8 px-4">
-          <div className="h-16 w-9 rounded-[10px] border border-white/12" />
-          <p className="text-center text-xs text-ink-faint">{mockup.title}</p>
-          <p className="text-[10px] uppercase tracking-wide text-ink-faint/70">
-            image pending
+        <div className="flex h-full w-full items-center justify-center rounded-md border border-white/6">
+          <div className="h-[30%] aspect-[9/19] rounded-[10px] border border-white/12" />
+          <p className="absolute inset-x-0 bottom-3 text-center text-[11px] text-ink-faint opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+            {mockup.title}
           </p>
         </div>
       )}

@@ -52,25 +52,39 @@
   --font-display: var(--font-fraunces);
 }
 
-* {
-  border-color: var(--glass-border);
+/* Must stay layered: unlayered CSS beats every Tailwind utility in v4. */
+@layer base {
+  * {
+    border-color: var(--glass-border);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    /* full-bleed sticky filter band uses 100vw; clip (not hidden) keeps sticky working */
+    overflow-x: clip;
+  }
 }
 
-html {
-  color-scheme: dark;
-}
-
-body {
-  background: var(--color-canvas);
-  color: var(--color-ink);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-}
-
+@layer components {
 .font-display {
   font-family: var(--font-display), ui-serif, Georgia, serif;
 }
 
-/* Glass chrome utility — reserve for shell surfaces, never grid tiles */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glass chrome — reserve for shell surfaces, never grid tiles */
 .glass {
   background: var(--glass-bg);
   backdrop-filter: blur(var(--blur-glass)) saturate(140%);
@@ -99,6 +113,7 @@ body {
   pointer-events: none;
   background: linear-gradient(135deg, var(--glass-specular), transparent 40%);
   opacity: 0.5;
+}
 }
 
 ::selection {

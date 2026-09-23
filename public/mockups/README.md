@@ -1,33 +1,34 @@
 # Dropping in real mockups
 
-This folder is the **only** place real catalog images live. The app checks
-this folder at build/render time — a card renders its image the moment a
-matching file lands here, no code changes required.
+This folder is the only place catalog images live. At build time the app
+checks for each seed entry's file here. A card renders its image as soon as
+a matching file lands. No code changes needed.
 
 ## Naming
 
-Every file must be named exactly after its `mockup_id`:
-
 ```
-public/mockups/{mockup_id}.webp
+public/mockups/{id}.webp
 ```
 
-`mockup_id` follows `iphone-{environment}-{ui_type}-{nn}`, e.g.
-`iphone-desk-paywall-01.webp`. The full list of expected ids is generated
-in `lib/mockups.ts` — run `node scripts/validate-seed.mjs` to print which
-ids are still missing an image.
+`id` comes from `data/mockups.json` and follows
+`iphone-{environment}-{uiType}-{nn}`, e.g. `iphone-desk-paywall-01.webp`.
+
+```bash
+npm run validate-seed -- --missing   # lists every filename still expected
+```
 
 ## Format
 
-- `.webp`, portrait, ~1024x1280 (4:5) to match the card aspect ratio used
-  in `components/ds/MockupCard.tsx`.
-- One export per id. No device/UI variants under the same id — give it a
-  new `mockup_id` instead (edit `lib/mockups.ts`'s seed if you need a new
-  slot, or extend the per-environment counts).
+- `.webp`, portrait 4:5, ~1024×1280. That's the card and hero aspect. Other
+  ratios get center-cropped.
+- One file per id. A variant is a new entry with the next `-NN`, not an
+  overwrite.
+- If the real image's style or mood differs from its placeholder tags,
+  update the entry in `data/mockups.json`. Similars are only as good as
+  the tags.
 
 ## Until a file exists
 
-Cards with no matching file render an honest "image pending" state (a
-thin device outline, no fake photoreal UI) — see `MockupCard.tsx`. This is
-intentional per the craft direction: CSS phone-frame skeuomorphs are not a
-shippable placeholder, so we show nothing rather than fake it.
+The card shows a quiet outline glyph (title on hover). The focus stage shows
+"Image pending" with a disabled Download button. This is deliberate: CSS
+phone-frame skeletons were rejected as a shippable placeholder.

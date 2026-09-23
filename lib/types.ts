@@ -36,6 +36,7 @@ export interface Mockup {
 export interface Cluster {
   key: string;
   label: string;
+  uiLabel: string;
   environment: Environment;
   uiType: UiType;
   mockups: Mockup[];

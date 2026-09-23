@@ -18,8 +18,8 @@ export function NavBar({ right }: { right?: ReactNode }) {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-30 flex items-center justify-between px-4 py-3 transition-all duration-300 sm:px-6",
-        scrolled ? "glass" : "border-b border-transparent bg-transparent",
+        "sticky top-0 z-30 flex h-14 items-center justify-between px-4 transition-colors duration-300 sm:px-6",
+        scrolled ? "bg-canvas/85 backdrop-blur-xl" : "bg-transparent",
       )}
     >
       <span className="font-display text-lg tracking-tight text-ink">Mockupworld</span>

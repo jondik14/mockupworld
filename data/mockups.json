@@ -1,0 +1,842 @@
+[
+  {
+    "id": "iphone-desk-home-01",
+    "title": "Home · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "home",
+    "style": "clean",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-desk-home-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-home-02",
+    "title": "Home · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "home",
+    "style": "glass",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-desk-home-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-onboarding-01",
+    "title": "Onboarding · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "onboarding",
+    "style": "bold",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-desk-onboarding-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-onboarding-02",
+    "title": "Onboarding · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "onboarding",
+    "style": "minimal",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-desk-onboarding-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-feed-01",
+    "title": "Feed · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "feed",
+    "style": "data-heavy",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-desk-feed-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-feed-02",
+    "title": "Feed · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "feed",
+    "style": "clean",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-desk-feed-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-settings-01",
+    "title": "Settings · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "settings",
+    "style": "glass",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-desk-settings-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-settings-02",
+    "title": "Settings · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "settings",
+    "style": "bold",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-desk-settings-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-paywall-01",
+    "title": "Paywall · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "paywall",
+    "style": "minimal",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-desk-paywall-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-paywall-02",
+    "title": "Paywall · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "paywall",
+    "style": "data-heavy",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-desk-paywall-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-empty-01",
+    "title": "Empty · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "empty",
+    "style": "clean",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-desk-empty-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-desk-error-01",
+    "title": "Error · Desk",
+    "device": "iphone",
+    "environment": "desk",
+    "uiType": "error",
+    "style": "glass",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-desk-error-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-home-01",
+    "title": "Home · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "home",
+    "style": "bold",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-cafe-home-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-home-02",
+    "title": "Home · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "home",
+    "style": "minimal",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-cafe-home-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-onboarding-01",
+    "title": "Onboarding · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "onboarding",
+    "style": "data-heavy",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-cafe-onboarding-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-onboarding-02",
+    "title": "Onboarding · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "onboarding",
+    "style": "clean",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-cafe-onboarding-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-feed-01",
+    "title": "Feed · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "feed",
+    "style": "glass",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-cafe-feed-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-feed-02",
+    "title": "Feed · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "feed",
+    "style": "bold",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-cafe-feed-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-settings-01",
+    "title": "Settings · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "settings",
+    "style": "minimal",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-cafe-settings-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-settings-02",
+    "title": "Settings · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "settings",
+    "style": "data-heavy",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-cafe-settings-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-paywall-01",
+    "title": "Paywall · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "paywall",
+    "style": "clean",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-cafe-paywall-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-paywall-02",
+    "title": "Paywall · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "paywall",
+    "style": "glass",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-cafe-paywall-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-empty-01",
+    "title": "Empty · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "empty",
+    "style": "bold",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-cafe-empty-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-cafe-error-01",
+    "title": "Error · Cafe",
+    "device": "iphone",
+    "environment": "cafe",
+    "uiType": "error",
+    "style": "minimal",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-cafe-error-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-home-01",
+    "title": "Home · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "home",
+    "style": "data-heavy",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-transit-home-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-home-02",
+    "title": "Home · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "home",
+    "style": "clean",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-transit-home-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-onboarding-01",
+    "title": "Onboarding · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "onboarding",
+    "style": "glass",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-transit-onboarding-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-onboarding-02",
+    "title": "Onboarding · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "onboarding",
+    "style": "bold",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-transit-onboarding-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-feed-01",
+    "title": "Feed · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "feed",
+    "style": "minimal",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-transit-feed-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-feed-02",
+    "title": "Feed · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "feed",
+    "style": "data-heavy",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-transit-feed-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-settings-01",
+    "title": "Settings · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "settings",
+    "style": "clean",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-transit-settings-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-settings-02",
+    "title": "Settings · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "settings",
+    "style": "glass",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-transit-settings-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-paywall-01",
+    "title": "Paywall · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "paywall",
+    "style": "bold",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-transit-paywall-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-paywall-02",
+    "title": "Paywall · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "paywall",
+    "style": "minimal",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-transit-paywall-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-empty-01",
+    "title": "Empty · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "empty",
+    "style": "data-heavy",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-transit-empty-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-transit-error-01",
+    "title": "Error · Transit",
+    "device": "iphone",
+    "environment": "transit",
+    "uiType": "error",
+    "style": "clean",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-transit-error-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-home-01",
+    "title": "Home · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "home",
+    "style": "glass",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-outdoor-home-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-home-02",
+    "title": "Home · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "home",
+    "style": "bold",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-outdoor-home-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-onboarding-01",
+    "title": "Onboarding · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "onboarding",
+    "style": "minimal",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-outdoor-onboarding-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-onboarding-02",
+    "title": "Onboarding · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "onboarding",
+    "style": "data-heavy",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-outdoor-onboarding-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-feed-01",
+    "title": "Feed · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "feed",
+    "style": "clean",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-outdoor-feed-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-feed-02",
+    "title": "Feed · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "feed",
+    "style": "glass",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-outdoor-feed-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-settings-01",
+    "title": "Settings · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "settings",
+    "style": "bold",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-outdoor-settings-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-settings-02",
+    "title": "Settings · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "settings",
+    "style": "minimal",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-outdoor-settings-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-paywall-01",
+    "title": "Paywall · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "paywall",
+    "style": "data-heavy",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-outdoor-paywall-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-paywall-02",
+    "title": "Paywall · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "paywall",
+    "style": "clean",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-outdoor-paywall-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-empty-01",
+    "title": "Empty · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "empty",
+    "style": "glass",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-outdoor-empty-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-outdoor-error-01",
+    "title": "Error · Outdoor",
+    "device": "iphone",
+    "environment": "outdoor",
+    "uiType": "error",
+    "style": "bold",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-outdoor-error-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-home-01",
+    "title": "Home · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "home",
+    "style": "minimal",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-dark-home-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-home-02",
+    "title": "Home · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "home",
+    "style": "data-heavy",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-dark-home-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-onboarding-01",
+    "title": "Onboarding · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "onboarding",
+    "style": "clean",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-dark-onboarding-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-onboarding-02",
+    "title": "Onboarding · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "onboarding",
+    "style": "glass",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-dark-onboarding-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-feed-01",
+    "title": "Feed · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "feed",
+    "style": "bold",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-dark-feed-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-feed-02",
+    "title": "Feed · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "feed",
+    "style": "minimal",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-dark-feed-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-settings-01",
+    "title": "Settings · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "settings",
+    "style": "data-heavy",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-dark-settings-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-settings-02",
+    "title": "Settings · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "settings",
+    "style": "clean",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-dark-settings-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-paywall-01",
+    "title": "Paywall · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "paywall",
+    "style": "glass",
+    "mood": "calm",
+    "image": {
+      "src": "/mockups/iphone-dark-paywall-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-paywall-02",
+    "title": "Paywall · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "paywall",
+    "style": "bold",
+    "mood": "energetic",
+    "image": {
+      "src": "/mockups/iphone-dark-paywall-02.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-empty-01",
+    "title": "Empty · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "empty",
+    "style": "minimal",
+    "mood": "premium",
+    "image": {
+      "src": "/mockups/iphone-dark-empty-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  },
+  {
+    "id": "iphone-dark-error-01",
+    "title": "Error · Dark",
+    "device": "iphone",
+    "environment": "dark",
+    "uiType": "error",
+    "style": "data-heavy",
+    "mood": "playful",
+    "image": {
+      "src": "/mockups/iphone-dark-error-01.webp",
+      "width": 1024,
+      "height": 1280
+    }
+  }
+]

@@ -31,6 +31,16 @@ export function CatalogView({
     [clusters, environment, uiType],
   );
 
+  const regions = useMemo(
+    () =>
+      ENVIRONMENTS.map(({ value, label }) => ({
+        environment: value,
+        label,
+        clusters: visibleClusters.filter((c) => c.environment === value),
+      })).filter((r) => r.clusters.length > 0),
+    [visibleClusters],
+  );
+
   const visibleCount = useMemo(
     () => visibleClusters.reduce((sum, c) => sum + c.mockups.length, 0),
     [visibleClusters],
@@ -45,7 +55,7 @@ export function CatalogView({
     setEnvironment(env);
     setUiType(ui);
     requestAnimationFrame(() => {
-      document.getElementById("catalog-top")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById("catalog-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
@@ -60,12 +70,13 @@ export function CatalogView({
               iPhone UI, in the wild.
             </h1>
             <p className="mt-4 max-w-md text-ink-muted">
-              Tap a mockup to jump into a bounded cluster of tag-similar scenes.
+              Browse by scene and screen. Tap any mockup to pull up its closest matches.
             </p>
           </div>
 
-          <StaggerChildren className="mt-8 flex flex-col gap-2.5">
-            <div className="flex flex-wrap gap-2">
+          <div className="sticky top-14 z-20 mt-8 w-screen border-b border-white/8 bg-canvas/85 py-3 backdrop-blur-xl [margin-left:calc(50%-50vw)]">
+          <StaggerChildren className="mx-auto flex max-w-6xl flex-col gap-2 px-4 sm:px-6">
+            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
               <Chip selected={environment === null} onClick={() => jumpTo(null, uiType)}>
                 All scenes
               </Chip>
@@ -79,7 +90,7 @@ export function CatalogView({
                 </Chip>
               ))}
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
               <Chip selected={uiType === null} onClick={() => jumpTo(environment, null)}>
                 All screens
               </Chip>
@@ -94,11 +105,18 @@ export function CatalogView({
               ))}
             </div>
           </StaggerChildren>
+          </div>
 
-          <div className="mt-12 flex flex-col gap-12">
-            {visibleClusters.length > 0 ? (
-              visibleClusters.map((cluster) => (
-                <ClusterSection key={cluster.key} cluster={cluster} onSelect={setFocused} />
+          <div id="catalog-grid" className="mt-10 flex scroll-mt-44 flex-col gap-14">
+            {regions.length > 0 ? (
+              regions.map((region) => (
+                <ClusterSection
+                  key={region.environment}
+                  id={`env-${region.environment}`}
+                  title={region.label}
+                  clusters={region.clusters}
+                  onSelect={setFocused}
+                />
               ))
             ) : (
               <EmptyState hint="No cluster matches that combination yet — more scenes shipping." />

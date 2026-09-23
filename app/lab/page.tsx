@@ -7,7 +7,11 @@ import { Stat } from "@/components/ds/Stat";
 import { EmptyState } from "@/components/ds/EmptyState";
 import { MockupCard } from "@/components/ds/MockupCard";
 import { MagneticButton } from "@/components/ds/motion/MagneticButton";
+import { ClusterSection } from "@/components/ds/ClusterSection";
 import { getMockups } from "@/lib/mockups";
+import { buildClusters } from "@/lib/clusters";
+import { getSimilar } from "@/lib/similarity";
+import { FocusDemo } from "./FocusDemo";
 
 function Section({ title, note, children }: { title: string; note?: string; children: ReactNode }) {
   return (
@@ -24,6 +28,7 @@ function Section({ title, note, children }: { title: string; note?: string; chil
 export default function LabPage() {
   const mockups = getMockups();
   const sample = mockups[0];
+  const clusters = buildClusters(mockups);
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
@@ -61,14 +66,27 @@ export default function LabPage() {
 
       <Section
         title="MockupCard"
-        note="quiet, preview-first. Left: honest pending state. Right: image-backed once public/mockups has the file."
+        note="Quiet, preview-first: still image, hover scale ≤ 1.02, no per-tile glass or GSAP. Until public/mockups/{id}.webp exists it shows this honest pending glyph (title on hover) — never a fake CSS phone UI."
       >
-        <div className="w-40">
-          <MockupCard mockup={{ ...sample, hasImage: false }} />
-        </div>
         <div className="w-40">
           <MockupCard mockup={sample} />
         </div>
+      </Section>
+
+      <section className="border-t border-white/8 py-10">
+        <h2 className="font-display text-xl text-ink">ClusterSection</h2>
+        <p className="mb-6 mt-1 max-w-lg text-sm text-ink-muted">
+          One environment region; its ui_type clusters pack a shared grid (dense flow, each pack
+          spans its card count).
+        </p>
+        <ClusterSection title="Desk (first 3 clusters)" clusters={clusters.slice(0, 3)} />
+      </section>
+
+      <Section
+        title="FocusStage"
+        note="Glass overlay: hero + download CTA + 8–12 similars. GSAP open/close; Esc closes, ←/→ move through similars."
+      >
+        <FocusDemo mockup={sample} similars={getSimilar(sample, mockups, 12)} />
       </Section>
 
       <Section title="MagneticButton" note="subtle cursor pull — reserved for shell CTAs">
