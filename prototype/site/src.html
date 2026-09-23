@@ -1,0 +1,521 @@
+<title>Mockup Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #f4f3f0;
+  --surface: #fbfaf8;
+  --ink: #171716;
+  --muted: #76736c;
+  --faint: #a9a69e;
+  --line: #dfddd7;
+  --chip: #eae8e3;
+  --inverse-ink: #fbfaf8;
+  --shadow: 0 18px 50px -20px rgba(30, 28, 24, .35);
+  --sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #121211; --surface: #1a1a18; --ink: #f1f0ec; --muted: #9c998f; --faint: #6d6a63;
+    --line: #2c2b28; --chip: #252422; --inverse-ink: #121211; --shadow: 0 18px 50px -20px rgba(0,0,0,.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #121211; --surface: #1a1a18; --ink: #f1f0ec; --muted: #9c998f; --faint: #6d6a63;
+  --line: #2c2b28; --chip: #252422; --inverse-ink: #121211; --shadow: 0 18px 50px -20px rgba(0,0,0,.7);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 14px/1.45 var(--sans); overflow: hidden; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* canvas */
+#stage { position: fixed; inset: 0; overflow: hidden; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
+#stage.dragging { cursor: grabbing; }
+.tile { position: absolute; left: 0; top: 0; border-radius: 6px; overflow: hidden; background: var(--chip); transition: opacity .35s ease, filter .35s ease; will-change: transform; }
+.tile img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+.tile .cap { position: absolute; left: 8px; bottom: 8px; font: 500 11px/1 var(--sans); color: #fff; background: rgba(20,20,18,.55); backdrop-filter: blur(6px); padding: 5px 7px; border-radius: 4px; opacity: 0; transform: translateY(3px); transition: opacity .18s, transform .18s; pointer-events: none; }
+@media (hover: hover) { .tile:hover .cap { opacity: 1; transform: none; } }
+.tile.dim { opacity: .14; filter: grayscale(.6); }
+.tile.current { outline: 2px solid var(--ink); outline-offset: 3px; }
+#empty { position: fixed; inset: 0; display: grid; place-items: center; text-align: center; pointer-events: none; }
+#empty p { margin: 0 0 12px; font: 400 28px/1.1 var(--serif); }
+#empty button { pointer-events: auto; }
+
+/* top bar */
+.bar { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 14px); left: 16px; right: 16px; z-index: 10; display: flex; align-items: center; gap: 12px; pointer-events: none; }
+.bar > * { pointer-events: auto; }
+.mark { display: flex; align-items: baseline; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px 8px; box-shadow: var(--shadow); white-space: nowrap; }
+.mark b { font: italic 400 21px/1 var(--serif); letter-spacing: -.01em; }
+.mark span { font-size: 12px; color: var(--muted); }
+.search { flex: 1; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+.field { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 0 6px 0 16px; box-shadow: var(--shadow); }
+.field input { flex: 1; min-width: 0; border: 0; background: none; color: var(--ink); font: 15px var(--sans); padding: 10px 0; outline: none; }
+.field input::placeholder { color: var(--faint); }
+.count { font: 500 12px var(--mono); color: var(--muted); padding: 4px 10px; white-space: nowrap; }
+.chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 11px; font-size: 12.5px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.chip:hover { color: var(--ink); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--inverse-ink); border-color: var(--ink); }
+.spacer { width: 150px; flex: none; }
+
+/* intro note */
+.note { position: fixed; left: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); z-index: 10; max-width: 330px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); }
+.note h2 { margin: 0 0 4px; font: 400 20px/1.15 var(--serif); }
+.note p { margin: 0; color: var(--muted); font-size: 13px; text-wrap: pretty; }
+.note .x { position: absolute; top: 8px; right: 8px; border: 0; background: none; color: var(--faint); cursor: pointer; font-size: 16px; line-height: 1; padding: 6px; }
+
+/* focus panel */
+.panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 20; width: min(440px, 100%); background: var(--surface); border-left: 1px solid var(--line); box-shadow: -30px 0 60px -40px rgba(0,0,0,.35); overflow-y: auto; padding: calc(env(safe-area-inset-top, 0px) + 18px) 20px calc(env(safe-area-inset-bottom, 0px) + 28px); display: flex; flex-direction: column; gap: 18px; transform: translateX(0); transition: transform .32s cubic-bezier(.2,.8,.2,1); }
+.panel[hidden] { display: flex !important; transform: translateX(105%); visibility: hidden; transition: transform .25s ease, visibility 0s .25s; }
+.panel > * { flex: none; }
+.phead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.phead h1 { margin: 0; font: 400 30px/1.05 var(--serif); letter-spacing: -.01em; text-wrap: balance; }
+.close { flex: none; border: 1px solid var(--line); background: var(--ground); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 12.5px; color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tag { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .04em; color: var(--muted); background: var(--chip); border-radius: 4px; padding: 4px 7px; cursor: pointer; border: 0; }
+.tag:hover { color: var(--ink); }
+.preview { position: relative; border-radius: 10px; overflow: hidden; background: var(--chip); }
+.preview img { display: block; width: 100%; height: auto; }
+.preview.drop::after { content: "Drop to place your screen"; position: absolute; inset: 0; display: grid; place-items: center; background: rgba(20,20,18,.55); color: #fff; font: 400 24px var(--serif); }
+.busy { position: absolute; right: 10px; top: 10px; font: 500 11px var(--mono); background: rgba(20,20,18,.6); color: #fff; padding: 4px 7px; border-radius: 4px; }
+.sect h3 { margin: 0 0 8px; font: 600 11px var(--sans); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.uis { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.ui { flex: none; width: 46px; aspect-ratio: 393/852; border-radius: 7px; overflow: hidden; border: 2px solid transparent; padding: 0; cursor: pointer; background: var(--chip); }
+.ui img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ui[aria-pressed="true"] { border-color: var(--ink); }
+.ui.add { display: grid; place-items: center; border: 1px dashed var(--faint); font-size: 20px; color: var(--muted); background: none; }
+.hint { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); text-wrap: pretty; }
+kbd { font: 500 11px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: var(--ground); }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { border: 1px solid var(--ink); background: var(--ink); color: var(--inverse-ink); border-radius: 999px; padding: 9px 16px; cursor: pointer; font-weight: 500; }
+.btn.ghost { background: none; color: var(--ink); border-color: var(--line); }
+.status { font-size: 12.5px; color: var(--muted); }
+.later { display: grid; gap: 6px; }
+.later div { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; padding: 9px 12px; border: 1px dashed var(--line); border-radius: 8px; color: var(--muted); }
+.later em { font: 500 10.5px var(--mono); font-style: normal; text-transform: uppercase; letter-spacing: .05em; color: var(--faint); white-space: nowrap; }
+.sims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.sim { border: 0; padding: 0; border-radius: 6px; overflow: hidden; cursor: pointer; background: var(--chip); aspect-ratio: 1; }
+.sim img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .2s; }
+.sim:hover img { transform: scale(1.03); }
+
+@media (max-width: 720px) {
+  .mark span, .spacer { display: none; }
+  .bar { flex-wrap: wrap; }
+  .search { order: 3; flex-basis: 100%; }
+  .note { right: 16px; max-width: none; }
+  .panel { top: auto; height: 88%; width: 100%; border-left: 0; border-top: 1px solid var(--line); border-radius: 18px 18px 0 0; }
+  .panel[hidden] { transform: translateY(105%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel, .panel[hidden], .tile, .tile .cap { transition: none; }
+}
+</style>
+
+<div id="stage" aria-label="Mockup canvas — drag to explore"></div>
+<div id="empty" hidden><div><p id="emptyText">Nothing matches</p><button class="btn ghost" id="clearBtn" type="button">Clear search</button></div></div>
+
+<header class="bar">
+  <div class="mark"><b>Atlas</b><span>iPhone mockups</span></div>
+  <div class="search">
+    <label class="field" for="q">
+      <input id="q" type="search" placeholder="Search — try flat lay, paywall, sage, dark" autocomplete="off">
+      <span class="count" id="count">22</span>
+    </label>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div class="spacer"></div>
+</header>
+
+<aside class="note" id="note">
+  <button class="x" id="noteX" type="button" aria-label="Hide note">×</button>
+  <h2>Drag anywhere to explore.</h2>
+  <p>Click a mockup to see its closest matches and drop your own screen onto it. Prototype for feedback: 22 clay-style renders made in 3D for this demo.</p>
+</aside>
+
+<aside class="panel" id="panel" hidden aria-label="Mockup detail">
+  <div class="phead">
+    <div>
+      <h1 id="pTitle">—</h1>
+      <div class="tags" id="pTags"></div>
+    </div>
+    <button class="close" id="closeBtn" type="button">Close <kbd>Esc</kbd></button>
+  </div>
+
+  <div class="preview" id="preview"><img id="pImg" alt=""><span class="busy" id="busy" hidden>placing…</span></div>
+
+  <section class="sect">
+    <h3>Your screen</h3>
+    <div class="uis" id="uis"></div>
+    <p class="hint">Drop a screenshot on the preview, upload one, or paste with <kbd>⌘V</kbd>. From Figma: select a frame, <kbd>⇧⌘C</kbd> (Copy as PNG), then <kbd>⌘V</kbd> here. It's placed with exact perspective, so your pixels stay untouched.</p>
+    <input type="file" id="file" accept="image/*" hidden>
+  </section>
+
+  <section class="sect">
+    <div class="actions">
+      <button class="btn" id="copyBtn" type="button">Copy image</button>
+      <span class="status" id="status" role="status">Paste into Figma, Photoshop or Slack.</span>
+    </div>
+    <p class="hint">Or right-click the preview → Save image.</p>
+  </section>
+
+  <section class="sect later">
+    <h3>Planned</h3>
+    <div>Figma plugin: send straight to your canvas <em>later</em></div>
+    <div>Photoshop .psd with smart-object screen <em>later</em></div>
+  </section>
+
+  <section class="sect">
+    <h3 id="simH">Similar</h3>
+    <div class="sims" id="sims"></div>
+  </section>
+</aside>
+
+<script>
+const DATA = /*DATA*/;
+const UIS = ["onboarding", "feed", "paywall", "home", "player", "wallet", "settings"];
+const SCREEN_ASPECT = 393 / 852;
+const byId = Object.fromEntries(DATA.map((d) => [d.id, d]));
+const $ = (id) => document.getElementById(id);
+
+/* ---------- search + filtering ---------- */
+const CHIPS = ["Flat lay", "Floating", "Standing", "Perspective", "Duo", "Trio", "Close-up", "Dark", "Paywall", "Onboarding", "Wallet"];
+const hay = (d) => [d.title, ...Object.values(d.tags)].join(" ").toLowerCase();
+let pool = DATA.slice();
+function applyQuery(q) {
+  const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+  pool = DATA.filter((d) => terms.every((t) => hay(d).includes(t)));
+  $("count").textContent = pool.length;
+  $("empty").hidden = pool.length > 0;
+  $("emptyText").textContent = `Nothing matches “${q}” yet`;
+  for (const c of $("chips").children) c.setAttribute("aria-pressed", String(c.textContent.toLowerCase() === q.trim().toLowerCase()));
+  buildLayout();
+}
+for (const label of CHIPS) {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.textContent = label; b.setAttribute("aria-pressed", "false");
+  b.onclick = () => { const on = b.getAttribute("aria-pressed") === "true"; $("q").value = on ? "" : label; applyQuery($("q").value); };
+  $("chips").appendChild(b);
+}
+$("q").addEventListener("input", (e) => applyQuery(e.target.value));
+$("clearBtn").onclick = () => { $("q").value = ""; applyQuery(""); };
+
+/* ---------- infinite canvas ---------- */
+const stage = $("stage");
+let colW, gap, pitch, cols = [], C = 7;
+let cx = 0, cy = 0, vx = 0, vy = 0;
+const live = new Map();
+
+function rand(seed) { return () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function buildLayout() {
+  const narrow = innerWidth < 640;
+  colW = narrow ? 148 : 232; gap = narrow ? 8 : 12; pitch = colW + gap;
+  for (const el of live.values()) el.remove();
+  live.clear();
+  cols = [];
+  if (!pool.length) return;
+  const r = rand(7);
+  const order = pool.map((_, i) => i).sort(() => r() - 0.5);
+  const n = order.length;
+  for (let c = 0; c < C; c++) {
+    const items = []; let y = 0, k = (c * 3) % n;
+    while (y < 1500 || items.length < Math.min(n, 3)) {
+      const d = pool[order[k % n]];
+      const h = Math.round(colW * d.h / d.w);
+      items.push({ d, y, h }); y += h + gap; k += 1;
+    }
+    cols.push({ items, period: y, offset: (c * 137) % 190 });
+  }
+  frame();
+}
+
+function tileEl(d) {
+  const el = document.createElement("div");
+  el.className = "tile"; el.dataset.id = d.id;
+  el.innerHTML = `<img alt="${d.title}" src="m/${d.id}-t.webp" decoding="async" draggable="false"><span class="cap">${d.title}</span>`;
+  return el;
+}
+
+function frame() {
+  if (!cols.length) return;
+  const W = innerWidth, H = innerHeight, seen = new Set();
+  const g0 = Math.floor(cx / pitch) - 1, g1 = Math.floor((cx + W) / pitch) + 1;
+  for (let gc = g0; gc <= g1; gc++) {
+    const col = cols[((gc % C) + C) % C];
+    const sx = gc * pitch - cx;
+    const r0 = Math.floor((cy - col.offset - 400) / col.period), r1 = Math.floor((cy + H - col.offset) / col.period);
+    for (let rr = r0; rr <= r1; rr++) {
+      col.items.forEach((it, k) => {
+        const sy = rr * col.period + col.offset + it.y - cy;
+        if (sy > H + 40 || sy + it.h < -40) return;
+        const key = gc + ":" + rr + ":" + k;
+        seen.add(key);
+        let el = live.get(key);
+        if (!el) { el = tileEl(it.d); el.style.width = colW + "px"; el.style.height = it.h + "px"; stage.appendChild(el); live.set(key, el); styleTile(el); }
+        el.style.transform = `translate3d(${sx}px, ${sy}px, 0)`;
+      });
+    }
+  }
+  for (const [key, el] of live) if (!seen.has(key)) { el.remove(); live.delete(key); }
+}
+
+let highlight = null, currentId = null;
+function styleTile(el) {
+  el.classList.toggle("dim", !!highlight && !highlight.has(el.dataset.id));
+  el.classList.toggle("current", el.dataset.id === currentId);
+}
+function restyleAll() { for (const el of live.values()) styleTile(el); }
+
+/* drag, inertia, wheel */
+let dragging = false, moved = 0, lastX = 0, lastY = 0, lastT = 0, raf = 0;
+stage.addEventListener("pointerdown", (e) => {
+  dragging = true; moved = 0; lastX = e.clientX; lastY = e.clientY; lastT = performance.now(); vx = vy = 0;
+  stage.setPointerCapture(e.pointerId); stage.classList.add("dragging"); cancelAnimationFrame(raf);
+});
+stage.addEventListener("pointermove", (e) => {
+  if (!dragging) return;
+  const dx = e.clientX - lastX, dy = e.clientY - lastY, now = performance.now(), dt = Math.max(1, now - lastT);
+  cx -= dx; cy -= dy; moved += Math.abs(dx) + Math.abs(dy);
+  vx = -dx / dt * 16; vy = -dy / dt * 16; lastX = e.clientX; lastY = e.clientY; lastT = now;
+  frame();
+});
+stage.addEventListener("pointerup", (e) => {
+  if (!dragging) return;
+  dragging = false; stage.classList.remove("dragging");
+  if (moved < 6) {
+    const hit = document.elementsFromPoint(e.clientX, e.clientY).find((n) => n.classList && n.classList.contains("tile"));
+    if (hit) openMockup(hit.dataset.id);
+    return;
+  }
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const glide = () => { vx *= 0.94; vy *= 0.94; cx += vx; cy += vy; frame(); if (Math.abs(vx) + Math.abs(vy) > 0.3) raf = requestAnimationFrame(glide); };
+  raf = requestAnimationFrame(glide);
+});
+stage.addEventListener("wheel", (e) => { e.preventDefault(); cx += e.deltaX; cy += e.deltaY; frame(); }, { passive: false });
+addEventListener("keydown", (e) => {
+  if (e.target.matches("input")) return;
+  const step = 120;
+  if (e.key === "ArrowRight") cx += step; else if (e.key === "ArrowLeft") cx -= step;
+  else if (e.key === "ArrowDown") cy += step; else if (e.key === "ArrowUp") cy -= step;
+  else if (e.key === "Escape") closePanel(); else return;
+  frame();
+});
+addEventListener("resize", buildLayout);
+$("noteX").onclick = () => { $("note").hidden = true; };
+
+/* ---------- similarity ---------- */
+function score(a, b) {
+  return (a.tags.angle === b.tags.angle ? 3 : 0) + (a.tags.screen === b.tags.screen ? 2 : 0) +
+         (a.tags.color === b.tags.color ? 1 : 0) + (a.tags.tone === b.tags.tone ? 1 : 0);
+}
+function similars(d) {
+  return DATA.filter((x) => x.id !== d.id).map((x) => [x, score(d, x)]).filter(([, s]) => s > 0)
+    .sort((p, q) => q[1] - p[1] || p[0].id.localeCompare(q[0].id)).slice(0, 9).map(([x]) => x);
+}
+
+/* ---------- compositor: homography warp of the user's screen into the mockup ---------- */
+const glCanvas = document.createElement("canvas");
+const gl = glCanvas.getContext("webgl", { preserveDrawingBuffer: true, premultipliedAlpha: false });
+let prog;
+if (gl) {
+  const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0., 1.); }";
+  const fs = `precision highp float;
+    uniform sampler2D base, mask, ui; uniform vec2 size; uniform mat3 inv; uniform vec4 fit;
+    void main(){
+      vec2 px = vec2(gl_FragCoord.x, size.y - gl_FragCoord.y);
+      vec2 bUV = px / size;
+      vec3 q = inv * vec3(px, 1.0);
+      vec2 uv = q.xy / q.z;
+      vec2 f = fit.xy + uv * fit.zw;
+      vec4 b = texture2D(base, bUV);
+      float m = texture2D(mask, bUV).r;
+      vec3 u = texture2D(ui, clamp(f, 0.0, 1.0)).rgb;
+      gl_FragColor = vec4(mix(b.rgb, u, m), 1.0);
+    }`;
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+}
+function tex(unit, source) {
+  const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+  for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+  return t;
+}
+// unit square (u,v) -> quad (TL, TR, BR, BL); returns column-major inverse for GLSL
+function squareToQuadInverse(q) {
+  const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = q;
+  const dx1 = x1 - x2, dx2 = x3 - x2, dx3 = x0 - x1 + x2 - x3, dy1 = y1 - y2, dy2 = y3 - y2, dy3 = y0 - y1 + y2 - y3;
+  const det = dx1 * dy2 - dx2 * dy1;
+  const g = (dx3 * dy2 - dx2 * dy3) / det, h = (dx1 * dy3 - dx3 * dy1) / det;
+  const a = x1 - x0 + g * x1, b = x3 - x0 + h * x3, c = x0, d = y1 - y0 + g * y1, e = y3 - y0 + h * y3, f = y0;
+  const A = e - f * h, B = c * h - b, Cc = b * f - c * e, D = f * g - d, E = a - c * g, F = c * d - a * f, G = d * h - e * g, Hh = b * g - a * h, I = a * e - b * d;
+  return new Float32Array([A, D, G, B, E, Hh, Cc, F, I]); // column-major of adjugate (scale cancels in divide)
+}
+function loadImg(src) { return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
+function downscaleForQuad(img, quad) {
+  const edge = Math.max(Math.hypot(quad[3][0] - quad[0][0], quad[3][1] - quad[0][1]), Math.hypot(quad[2][0] - quad[1][0], quad[2][1] - quad[1][1]));
+  let target = Math.min(img.naturalHeight || img.height, Math.ceil(edge * 1.4));
+  let src = img, w = src.naturalWidth || src.width, h = src.naturalHeight || src.height;
+  while (h / 2 > target) {
+    const c = document.createElement("canvas"); c.width = Math.round(w / 2); c.height = Math.round(h / 2);
+    const x = c.getContext("2d"); x.imageSmoothingQuality = "high"; x.drawImage(src, 0, 0, c.width, c.height);
+    src = c; w = c.width; h = c.height;
+  }
+  return src;
+}
+
+const assets = {};
+async function mockAssets(d) {
+  if (!assets[d.id]) assets[d.id] = Promise.all([loadImg(`m/${d.id}.webp`), loadImg(`m/${d.id}-mask.png`)]);
+  return assets[d.id];
+}
+let lastBlob = null, lastURL = null, renderToken = 0;
+async function composite(d, uiSource) {
+  const token = ++renderToken;
+  $("busy").hidden = false;
+  try {
+    const [base, mask] = await mockAssets(d);
+    if (token !== renderToken) return;
+    if (!uiSource || !gl) { setPreview(null, base.src); return; }
+    const ui = downscaleForQuad(uiSource, d.quad);
+    glCanvas.width = d.w; glCanvas.height = d.h; gl.viewport(0, 0, d.w, d.h);
+    tex(0, base); tex(1, mask); tex(2, ui);
+    gl.uniform1i(gl.getUniformLocation(prog, "base"), 0);
+    gl.uniform1i(gl.getUniformLocation(prog, "mask"), 1);
+    gl.uniform1i(gl.getUniformLocation(prog, "ui"), 2);
+    gl.uniform2f(gl.getUniformLocation(prog, "size"), d.w, d.h);
+    gl.uniformMatrix3fv(gl.getUniformLocation(prog, "inv"), false, squareToQuadInverse(d.quad));
+    const uw = ui.naturalWidth || ui.width, uh = ui.naturalHeight || ui.height, a = uw / uh;
+    // cover-fit: crop sides of wide images, keep the top of tall (scrolling) screenshots
+    const fit = a > SCREEN_ASPECT ? [0.5 - SCREEN_ASPECT / a / 2, 0, SCREEN_ASPECT / a, 1] : [0, 0, 1, a / SCREEN_ASPECT];
+    gl.uniform4f(gl.getUniformLocation(prog, "fit"), ...fit);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    const blob = await new Promise((res) => glCanvas.toBlob(res, "image/png"));
+    if (token !== renderToken) return;
+    setPreview(blob);
+  } finally { if (token === renderToken) $("busy").hidden = true; }
+}
+function setPreview(blob, src) {
+  if (lastURL) URL.revokeObjectURL(lastURL);
+  lastBlob = blob; lastURL = blob ? URL.createObjectURL(blob) : null;
+  $("pImg").src = lastURL || src;
+}
+
+/* ---------- panel ---------- */
+let current = null, uiChoice = { kind: "baked" }, userUI = null;
+function renderUIs() {
+  const box = $("uis"); box.innerHTML = "";
+  const add = document.createElement("button");
+  add.type = "button"; add.className = "ui add"; add.title = "Upload your screen"; add.textContent = "+";
+  add.onclick = () => $("file").click();
+  box.appendChild(add);
+  const opts = [];
+  if (userUI) opts.push({ kind: "user", src: userUI.src, label: "Your screen" });
+  for (const u of UIS) opts.push({ kind: "sample", name: u, src: `ui/${u}.webp`, label: u });
+  for (const o of opts) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "ui"; b.title = o.label;
+    const on = uiChoice.kind === o.kind && (o.kind === "user" || uiChoice.name === o.name);
+    b.setAttribute("aria-pressed", String(on));
+    b.innerHTML = `<img alt="${o.label}" src="${o.src}">`;
+    b.onclick = () => { uiChoice = o; renderUIs(); placeCurrent(); };
+    box.appendChild(b);
+  }
+}
+async function placeCurrent() {
+  if (!current) return;
+  if (uiChoice.kind === "baked") return composite(current, null);
+  const img = uiChoice.kind === "user" ? userUI : await loadImg(uiChoice.src);
+  return composite(current, img);
+}
+function openMockup(id) {
+  const d = byId[id]; if (!d) return;
+  current = d; currentId = id;
+  $("pTitle").textContent = d.title;
+  $("pTags").innerHTML = "";
+  for (const v of Object.values(d.tags)) {
+    const t = document.createElement("button"); t.type = "button"; t.className = "tag"; t.textContent = v; t.title = `Search “${v}”`;
+    t.onclick = () => { $("q").value = v; applyQuery(v); };
+    $("pTags").appendChild(t);
+  }
+  $("pImg").alt = d.title;
+  const sims = similars(d);
+  $("simH").textContent = `Similar (${sims.length}), dimmed on the canvas`;
+  $("sims").innerHTML = "";
+  for (const s of sims) {
+    const b = document.createElement("button"); b.type = "button"; b.className = "sim"; b.title = s.title;
+    b.innerHTML = `<img alt="${s.title}" src="m/${s.id}-t.webp">`;
+    b.onclick = () => openMockup(s.id);
+    $("sims").appendChild(b);
+  }
+  highlight = new Set([id, ...sims.map((s) => s.id)]);
+  restyleAll();
+  $("panel").hidden = false; $("note").hidden = true;
+  $("panel").scrollTop = 0;
+  $("status").textContent = "Paste into Figma, Photoshop or Slack.";
+  renderUIs();
+  placeCurrent();
+  try { history.replaceState(null, "", "#" + id); } catch (e) {}
+}
+function closePanel() {
+  if ($("panel").hidden) return;
+  $("panel").hidden = true; current = null; currentId = null; highlight = null; restyleAll();
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+}
+$("closeBtn").onclick = closePanel;
+
+async function takeUserImage(file) {
+  if (!file || !file.type.startsWith("image/")) { $("status").textContent = "That file isn't an image. Use a PNG, JPG or WebP screenshot."; return; }
+  const url = URL.createObjectURL(file);
+  userUI = await loadImg(url);
+  uiChoice = { kind: "user" };
+  renderUIs();
+  if (!current) openMockup(DATA[0].id); else placeCurrent();
+  $("status").textContent = "Placed your screen.";
+}
+$("file").onchange = (e) => takeUserImage(e.target.files[0]);
+const pv = $("preview");
+pv.addEventListener("dragover", (e) => { e.preventDefault(); pv.classList.add("drop"); });
+pv.addEventListener("dragleave", () => pv.classList.remove("drop"));
+pv.addEventListener("drop", (e) => { e.preventDefault(); pv.classList.remove("drop"); takeUserImage(e.dataTransfer.files[0]); });
+addEventListener("paste", (e) => {
+  const item = [...(e.clipboardData?.items || [])].find((i) => i.type.startsWith("image/"));
+  if (item) { e.preventDefault(); takeUserImage(item.getAsFile()); }
+});
+
+$("copyBtn").onclick = async () => {
+  try {
+    let blob = lastBlob;
+    if (!blob) { const r = await fetch($("pImg").src); blob = await r.blob(); if (blob.type !== "image/png") blob = await toPng($("pImg")); }
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+    $("status").textContent = "Copied. Paste it into Figma with ⌘V.";
+  } catch (err) {
+    $("status").textContent = "This browser blocked copying. Right-click the preview → Copy image instead.";
+  }
+};
+function toPng(img) {
+  const c = document.createElement("canvas"); c.width = img.naturalWidth; c.height = img.naturalHeight;
+  c.getContext("2d").drawImage(img, 0, 0);
+  return new Promise((res) => c.toBlob(res, "image/png"));
+}
+
+/* boot */
+buildLayout();
+cx = -Math.max(0, (innerWidth - 4 * pitch) / 2); cy = -150; frame();
+const start = decodeURIComponent(location.hash.slice(1));
+if (byId[start]) openMockup(start);
+</script>

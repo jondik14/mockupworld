@@ -4,7 +4,46 @@ Paper trail for the rebuild. Newest session first. User-facing docs are in
 `README.md` (how to run and add images), `DESIGN.md` (craft bar) and
 `CLAUDE.md` (agent rules).
 
-## Current state (end of session 2)
+## Session 3 (Opus): Luke's feedback → new-direction prototype
+
+Luke saw the session-2 screenshots and said it's **not how he wants it**:
+
+- Grid structure should be like https://www.cosmos.so/public-work (an
+  infinite canvas you drag in every direction; images at natural ratios).
+- The mockups should be like what real mockup sites sell.
+- Users need an easy way to put their own UI in: maybe an AI-prompt
+  button, or a Figma / Photoshop route.
+
+Research: Mockuuups (drag-drop editor, Figma/Sketch/Adobe plugins), LS.Graphics
+("Edit Online", 654 clay mockups), Mockup World (PSD smart objects). **Every
+competitor lets users insert their own screen.** A catalog of baked-in-UI
+images isn't what this market buys. Popular types: hands, flat lay,
+floating 3D, clay, lifestyle, pocket. **Name clash:** "Mockup World"
+(mockupworld.co) is an established free-mockup site, so the repo name needs
+changing before launch.
+
+Built `prototype/` (see its README), live at
+https://claude.ai/artifact/6RKQS7e5mdbAKtZ23ME6Bi:
+- A Public-Work-style draggable canvas, search + chips, and a focus panel.
+  Similars dim the rest of the canvas, which is the "cluster" idea on the map.
+- 22 clay iPhone renders made with three.js (not CSS fakes) across 7 sample
+  app screens.
+- Drop / upload / paste your own screen. It's warped with an exact
+  homography + mask. Copy image to paste into Figma/PS. Figma plugin and PSD
+  are listed as planned.
+
+Recommendation given to Luke: **don't use AI to place the UI.** Generative
+models redraw the pixels (text and icons get mangled), cost money per use,
+and would open the public-gen surface the direction lock forbids. The
+deterministic warp is exact, instant and free. If AI helps anywhere, it's
+offline scene generation by Luke. The data-model change this implies is that
+every mockup needs `quad` + `mask`.
+
+The Next app on this branch is **unchanged** and still the session-2 design,
+pending Luke's feedback on the prototype. Don't port the prototype into it
+until he confirms the direction.
+
+## State at end of session 2
 
 - `npm run lint`, `npm run build` and `npm run validate-seed` all green.
 - Verified in a real browser (Playwright, 1440px + 390px) against the
