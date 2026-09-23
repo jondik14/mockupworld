@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+:root {
+  /* Canvas + elevation */
+  --color-canvas: #07070a;
+  --color-canvas-raised: #0e0e12;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-surface-strong: rgba(255, 255, 255, 0.09);
+
+  /* Glass chrome (shell only — nav, focus stage, filter bar) */
+  --glass-bg: color-mix(in oklab, white 8%, transparent);
+  --glass-bg-strong: color-mix(in oklab, white 12%, transparent);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-specular: rgba(255, 255, 255, 0.18);
+  --blur-glass: 20px;
+
+  /* Ink */
+  --color-ink: #f6f5f2;
+  --color-ink-muted: rgba(246, 245, 242, 0.62);
+  --color-ink-faint: rgba(246, 245, 242, 0.36);
+
+  /* One electric accent. No purple. */
+  --color-accent: #4bd8ff;
+  --color-accent-ink: #04222c;
+  --color-accent-soft: rgba(75, 216, 255, 0.14);
+
+  /* Warm highlight — reserved for desk-scene atmosphere only */
+  --color-warm: #d99a5b;
+  --color-warm-soft: rgba(217, 154, 91, 0.12);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  --shadow-glass: 0 20px 60px -10px rgba(2, 6, 12, 0.65);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 14px 34px -8px rgba(2, 6, 12, 0.55);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-canvas: var(--color-canvas);
+  --color-canvas-raised: var(--color-canvas-raised);
+  --color-ink: var(--color-ink);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-ink-faint: var(--color-ink-faint);
+  --color-accent: var(--color-accent);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-warm: var(--color-warm);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-fraunces);
+}
+
+* {
+  border-color: var(--glass-border);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+}
+
+/* Glass chrome utility — reserve for shell surfaces, never grid tiles */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(calc(var(--blur-glass) + 6px)) saturate(150%);
+  -webkit-backdrop-filter: blur(calc(var(--blur-glass) + 6px)) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-edge {
+  position: relative;
+}
+
+.glass-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, var(--glass-specular), transparent 40%);
+  opacity: 0.5;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
