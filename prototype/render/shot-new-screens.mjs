@@ -1,0 +1,12 @@
+import { chromium } from "/opt/node22/lib/node_modules/playwright/index.mjs";
+const b = await chromium.launch();
+const p1 = await b.newPage({ viewport: { width: 1512, height: 1012 }, deviceScaleFactor: 2 });
+await p1.goto("http://127.0.0.1:8765/screens-desktop.html");
+await p1.evaluate(() => document.fonts.ready);
+for (const id of ["dashboard", "shopfront", "editor"]) await p1.locator("#" + id).screenshot({ path: "screens/" + id + ".png" });
+const p2 = await b.newPage({ viewport: { width: 410, height: 482 }, deviceScaleFactor: 2 });
+await p2.goto("http://127.0.0.1:8765/screens-watch.html");
+await p2.evaluate(() => document.fonts.ready);
+for (const id of ["watchface", "workout"]) await p2.locator("#" + id).screenshot({ path: "screens/" + id + ".png" });
+await b.close();
+console.log("ok");

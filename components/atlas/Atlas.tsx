@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
-import { AtlasItem, QUICK_FILTERS, search, similars } from "@/lib/atlas";
+import { AtlasItem, QUICK_FILTERS, SAMPLE_SCREENS, search, similars } from "@/lib/atlas";
 import { InfiniteCanvas } from "./canvas";
 import { FocusPanel, ScreenChoice } from "./FocusPanel";
 import s from "./atlas.module.css";
@@ -17,7 +17,7 @@ export function Atlas({ items }: { items: AtlasItem[] }) {
   const [query, setQuery] = useState("");
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const [noteOpen, setNoteOpen] = useState(true);
-  const [choice, setChoice] = useState<ScreenChoice>({ kind: "baked" });
+  const [rawChoice, setChoice] = useState<ScreenChoice>({ kind: "baked" });
   const [userScreen, setUserScreen] = useState<{ img: HTMLImageElement; url: string } | null>(null);
   const [status, setStatus] = useState("");
 
@@ -59,6 +59,16 @@ export function Atlas({ items }: { items: AtlasItem[] }) {
   useEffect(() => {
     canvasRef.current?.setHighlight(focused ? new Set([focused.id, ...sims.map((x) => x.id)]) : null, focused?.id ?? null);
   }, [focused, sims]);
+
+  // A "sample" screen only makes sense for the device it was made for (a
+  // watch face doesn't fit a MacBook) — fall back to baked, without
+  // touching the stored choice, when it doesn't apply to the newly focused
+  // mockup. An uploaded screen always carries over.
+  const choice = useMemo<ScreenChoice>(() => {
+    if (!focused || rawChoice.kind !== "sample") return rawChoice;
+    const valid = SAMPLE_SCREENS[focused.tags.device].some((s) => s.name === rawChoice.name);
+    return valid ? rawChoice : { kind: "baked" };
+  }, [focused, rawChoice]);
 
   const takeScreen = useCallback(
     async (file: File | null | undefined) => {
@@ -125,7 +135,7 @@ export function Atlas({ items }: { items: AtlasItem[] }) {
       <header className={s.bar}>
         <div className={s.mark}>
           <b>Atlas</b>
-          <span>iPhone mockups</span>
+          <span>iPhone, MacBook &amp; Watch mockups</span>
         </div>
         <div className={s.search}>
           <label className={s.field} htmlFor="atlas-q">
@@ -163,8 +173,8 @@ export function Atlas({ items }: { items: AtlasItem[] }) {
           </button>
           <h2>Drag anywhere to explore.</h2>
           <p>
-            Click a mockup to see its closest matches and drop your own screen onto it. Prototype: 22 clay-style
-            renders made in 3D.
+            Click a mockup to see its closest matches and drop your own screen onto it. 35 clay-style renders across
+            iPhone, MacBook and Apple Watch, made in 3D.
           </p>
         </aside>
       ) : null}

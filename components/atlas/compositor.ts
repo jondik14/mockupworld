@@ -1,4 +1,4 @@
-import { AtlasItem, Point, SCREEN_ASPECT, assetPath } from "@/lib/atlas";
+import { AtlasItem, Point, assetPath, quadAspect } from "@/lib/atlas";
 
 export type Drawable = HTMLImageElement | HTMLCanvasElement;
 
@@ -145,12 +145,15 @@ export class Compositor {
     gl.uniform1i(u("ui"), 2);
     gl.uniform2f(u("size"), item.w, item.h);
     gl.uniformMatrix3fv(u("inv"), false, squareToQuadInverse(item.quad));
-    // Cover-fit: crop the sides of wide images, keep the top of long scrolling screenshots.
+    // Cover-fit against THIS mockup's own screen aspect (phone/laptop/watch
+    // all differ) — crop the sides of a relatively wide image, keep the top
+    // of a relatively tall one (e.g. a long scrolling screenshot).
     const [uw, uh] = size(ui);
     const aspect = uw / uh;
-    const fit = aspect > SCREEN_ASPECT
-      ? [0.5 - SCREEN_ASPECT / aspect / 2, 0, SCREEN_ASPECT / aspect, 1]
-      : [0, 0, 1, aspect / SCREEN_ASPECT];
+    const target = quadAspect(item.quad);
+    const fit = aspect > target
+      ? [0.5 - target / aspect / 2, 0, target / aspect, 1]
+      : [0, 0, 1, aspect / target];
     gl.uniform4f(u("fit"), fit[0], fit[1], fit[2], fit[3]);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     for (const t of textures) gl.deleteTexture(t);

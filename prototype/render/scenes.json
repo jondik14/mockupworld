@@ -6,7 +6,8 @@
    "angle": "Flat lay",
    "color": "Sand",
    "screen": "Onboarding",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -49,7 +50,8 @@
    "angle": "Floating",
    "color": "Sage",
    "screen": "Wallet",
-   "tone": "Dark UI"
+   "tone": "Dark UI",
+   "device": "iPhone"
   },
   "width": 1200,
   "height": 1200,
@@ -89,7 +91,8 @@
    "angle": "Standing",
    "color": "Terracotta",
    "screen": "Music",
-   "tone": "Dark UI"
+   "tone": "Dark UI",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -131,7 +134,8 @@
    "angle": "Duo",
    "color": "Stone",
    "screen": "Home",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1500,
   "height": 1000,
@@ -188,7 +192,8 @@
    "angle": "Trio",
    "color": "Charcoal",
    "screen": "Feed",
-   "tone": "Dark"
+   "tone": "Dark",
+   "device": "iPhone"
   },
   "width": 1600,
   "height": 900,
@@ -260,7 +265,8 @@
    "angle": "Back & front",
    "color": "Butter",
    "screen": "Paywall",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1200,
   "height": 1200,
@@ -313,7 +319,8 @@
    "angle": "Perspective",
    "color": "Dusty blue",
    "screen": "Paywall",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1050,
   "height": 1400,
@@ -353,7 +360,8 @@
    "angle": "Close-up",
    "color": "Blush",
    "screen": "Feed",
-   "tone": "Dark UI"
+   "tone": "Dark UI",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -394,7 +402,8 @@
    "angle": "Flat lay",
    "color": "Charcoal",
    "screen": "Music",
-   "tone": "Dark"
+   "tone": "Dark",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -438,7 +447,8 @@
    "angle": "Floating",
    "color": "Mint",
    "screen": "Home",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -478,7 +488,8 @@
    "angle": "Standing",
    "color": "Cream",
    "screen": "Settings",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1200,
   "height": 1200,
@@ -521,7 +532,8 @@
    "angle": "Isometric",
    "color": "Olive",
    "screen": "Wallet",
-   "tone": "Dark UI"
+   "tone": "Dark UI",
+   "device": "iPhone"
   },
   "width": 1200,
   "height": 1200,
@@ -560,7 +572,8 @@
    "angle": "Duo",
    "color": "Ink",
    "screen": "Onboarding",
-   "tone": "Dark"
+   "tone": "Dark",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -619,7 +632,8 @@
    "angle": "Flat lay",
    "color": "Butter",
    "screen": "Paywall",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1050,
   "height": 1400,
@@ -661,7 +675,8 @@
    "angle": "Leaning",
    "color": "Sand",
    "screen": "Feed",
-   "tone": "Dark UI"
+   "tone": "Dark UI",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -704,7 +719,8 @@
    "angle": "Floating",
    "color": "Clay",
    "screen": "Onboarding",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1600,
   "height": 900,
@@ -743,7 +759,8 @@
    "angle": "Stack",
    "color": "Stone",
    "screen": "Settings",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -805,7 +822,8 @@
    "angle": "Trio",
    "color": "Cream",
    "screen": "Home",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1600,
   "height": 900,
@@ -875,7 +893,8 @@
    "angle": "Perspective",
    "color": "Charcoal",
    "screen": "Home",
-   "tone": "Dark"
+   "tone": "Dark",
+   "device": "iPhone"
   },
   "width": 1050,
   "height": 1400,
@@ -924,7 +943,8 @@
    "angle": "Close-up",
    "color": "Sage",
    "screen": "Wallet",
-   "tone": "Dark UI"
+   "tone": "Dark UI",
+   "device": "iPhone"
   },
   "width": 1200,
   "height": 1200,
@@ -965,7 +985,8 @@
    "angle": "Duo",
    "color": "Blush",
    "screen": "Onboarding",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1080,
   "height": 1350,
@@ -1021,7 +1042,8 @@
    "angle": "Floating",
    "color": "Dusty blue",
    "screen": "Settings",
-   "tone": "Light"
+   "tone": "Light",
+   "device": "iPhone"
   },
   "width": 1050,
   "height": 1400,
@@ -1052,6 +1074,591 @@
     72,
     0
    ]
+  }
+ },
+ {
+  "id": "mb-hero-dashboard",
+  "title": "Hero \u00b7 Space grey",
+  "tags": {
+   "device": "MacBook",
+   "angle": "Hero",
+   "color": "Space grey",
+   "screen": "Dashboard",
+   "tone": "Light"
+  },
+  "width": 1100,
+  "height": 1000,
+  "bg": "#d7dcd6",
+  "light": {
+   "dir": [
+    -0.7,
+    1,
+    0.7
+   ],
+   "soft": 11
+  },
+  "devices": [
+   {
+    "kind": "macbook",
+    "color": "#4a4a4d",
+    "screen": "dashboard",
+    "lidAngle": 108,
+    "rot": [
+     0,
+     0,
+     0
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 16,
+   "azimuth": 0,
+   "distance": 650,
+   "target": [
+    0,
+    130,
+    0
+   ]
+  }
+ },
+ {
+  "id": "mb-angle-shopfront",
+  "title": "Perspective \u00b7 Silver",
+  "tags": {
+   "device": "MacBook",
+   "angle": "Perspective",
+   "color": "Silver",
+   "screen": "Shopfront",
+   "tone": "Light"
+  },
+  "width": 1100,
+  "height": 1000,
+  "bg": "#e3d8e6",
+  "devices": [
+   {
+    "kind": "macbook",
+    "color": "#d7d5cf",
+    "screen": "shopfront",
+    "lidAngle": 100,
+    "rot": [
+     0,
+     22,
+     0
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 18,
+   "azimuth": 0,
+   "distance": 680,
+   "target": [
+    0,
+    125,
+    0
+   ]
+  }
+ },
+ {
+  "id": "mb-close-editor",
+  "title": "Close-up \u00b7 Midnight",
+  "tags": {
+   "device": "MacBook",
+   "angle": "Close-up",
+   "color": "Midnight",
+   "screen": "Editor",
+   "tone": "Dark"
+  },
+  "width": 1100,
+  "height": 1000,
+  "bg": "#e6d6bb",
+  "devices": [
+   {
+    "kind": "macbook",
+    "color": "#33343a",
+    "screen": "editor",
+    "lidAngle": 112,
+    "rot": [
+     0,
+     -15,
+     0
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 20,
+   "azimuth": 0,
+   "distance": 600,
+   "target": [
+    0,
+    120,
+    0
+   ]
+  }
+ },
+ {
+  "id": "mb-standing-dashboard",
+  "title": "Standing \u00b7 Silver",
+  "tags": {
+   "device": "MacBook",
+   "angle": "Standing",
+   "color": "Silver",
+   "screen": "Dashboard",
+   "tone": "Light"
+  },
+  "width": 1000,
+  "height": 1100,
+  "bg": "#c9e3d6",
+  "devices": [
+   {
+    "kind": "macbook",
+    "color": "#dcdad4",
+    "screen": "dashboard",
+    "lidAngle": 95,
+    "rot": [
+     0,
+     10,
+     0
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 22,
+   "azimuth": 0,
+   "distance": 600,
+   "target": [
+    0,
+    150,
+    0
+   ]
+  }
+ },
+ {
+  "id": "mb-float-editor",
+  "title": "Floating \u00b7 Space grey",
+  "tags": {
+   "device": "MacBook",
+   "angle": "Floating",
+   "color": "Space grey",
+   "screen": "Editor",
+   "tone": "Dark"
+  },
+  "width": 1300,
+  "height": 950,
+  "bg": "#242428",
+  "light": {
+   "key": 2.6,
+   "env": 0.45,
+   "hemi": 0.35
+  },
+  "devices": [
+   {
+    "kind": "macbook",
+    "color": "#3d3d41",
+    "screen": "editor",
+    "lidAngle": 102,
+    "rot": [
+     6,
+     28,
+     -4
+    ],
+    "pos": [
+     0,
+     90,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 8,
+   "azimuth": 10,
+   "distance": 720,
+   "target": [
+    0,
+    150,
+    0
+   ]
+  }
+ },
+ {
+  "id": "mb-desk-dashboard-warm",
+  "title": "Flat desk \u00b7 Midnight",
+  "tags": {
+   "device": "MacBook",
+   "angle": "Standing",
+   "color": "Midnight",
+   "screen": "Dashboard",
+   "tone": "Dark"
+  },
+  "width": 1100,
+  "height": 1000,
+  "bg": "#c98a58",
+  "devices": [
+   {
+    "kind": "macbook",
+    "color": "#2c2c30",
+    "screen": "dashboard",
+    "lidAngle": 118,
+    "rot": [
+     0,
+     0,
+     0
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 14,
+   "azimuth": 0,
+   "distance": 640,
+   "target": [
+    0,
+    120,
+    0
+   ]
+  }
+ },
+ {
+  "id": "mb-perspective-editor-silver",
+  "title": "Perspective \u00b7 Silver",
+  "tags": {
+   "device": "MacBook",
+   "angle": "Perspective",
+   "color": "Silver",
+   "screen": "Editor",
+   "tone": "Dark"
+  },
+  "width": 1100,
+  "height": 1000,
+  "bg": "#dbe6d6",
+  "devices": [
+   {
+    "kind": "macbook",
+    "color": "#cfcdc7",
+    "screen": "editor",
+    "lidAngle": 104,
+    "rot": [
+     0,
+     -24,
+     0
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 19,
+   "azimuth": 0,
+   "distance": 660,
+   "target": [
+    0,
+    125,
+    0
+   ]
+  }
+ },
+ {
+  "id": "w-standing-watchface",
+  "title": "Standing \u00b7 Titanium",
+  "tags": {
+   "device": "Watch",
+   "angle": "Standing",
+   "color": "Titanium",
+   "screen": "Watch face",
+   "tone": "Dark"
+  },
+  "width": 900,
+  "height": 900,
+  "bg": "#bcbcbe",
+  "devices": [
+   {
+    "kind": "watch",
+    "color": "#8a8d92",
+    "screen": "watchface",
+    "rot": [
+     -9,
+     0,
+     0
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 16,
+   "azimuth": 8,
+   "distance": 135,
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "fov": 30
+  }
+ },
+ {
+  "id": "w-float-workout",
+  "title": "Floating \u00b7 Black",
+  "tags": {
+   "device": "Watch",
+   "angle": "Floating",
+   "color": "Black",
+   "screen": "Workout",
+   "tone": "Dark"
+  },
+  "width": 1000,
+  "height": 1000,
+  "bg": "#233024",
+  "light": {
+   "key": 2.6,
+   "env": 0.4,
+   "hemi": 0.35
+  },
+  "devices": [
+   {
+    "kind": "watch",
+    "color": "#1c1c1e",
+    "screen": "workout",
+    "rot": [
+     -22,
+     18,
+     -6
+    ],
+    "pos": [
+     0,
+     20,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 18,
+   "azimuth": 10,
+   "distance": 160,
+   "target": [
+    0,
+    15,
+    0
+   ],
+   "fov": 30
+  }
+ },
+ {
+  "id": "w-close-watchface-gold",
+  "title": "Close-up \u00b7 Gold",
+  "tags": {
+   "device": "Watch",
+   "angle": "Close-up",
+   "color": "Gold",
+   "screen": "Watch face",
+   "tone": "Dark"
+  },
+  "width": 900,
+  "height": 900,
+  "bg": "#e3cba0",
+  "devices": [
+   {
+    "kind": "watch",
+    "color": "#c9a876",
+    "screen": "watchface",
+    "rot": [
+     -16,
+     14,
+     -4
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 14,
+   "azimuth": 6,
+   "distance": 105,
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "fov": 28
+  }
+ },
+ {
+  "id": "w-flat-workout-silver",
+  "title": "Flat lay \u00b7 Silver",
+  "tags": {
+   "device": "Watch",
+   "angle": "Flat lay",
+   "color": "Silver",
+   "screen": "Workout",
+   "tone": "Dark"
+  },
+  "width": 900,
+  "height": 1000,
+  "bg": "#e6e2d8",
+  "light": {
+   "dir": [
+    -0.7,
+    1,
+    0.7
+   ],
+   "soft": 9
+  },
+  "devices": [
+   {
+    "kind": "watch",
+    "color": "#c7c5c0",
+    "screen": "workout",
+    "rot": [
+     -90,
+     0,
+     14
+    ],
+    "pos": [
+     0,
+     10,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 88,
+   "azimuth": 0,
+   "distance": 260,
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "fov": 26
+  }
+ },
+ {
+  "id": "w-standing-workout-black",
+  "title": "Standing \u00b7 Black",
+  "tags": {
+   "device": "Watch",
+   "angle": "Standing",
+   "color": "Black",
+   "screen": "Workout",
+   "tone": "Dark"
+  },
+  "width": 900,
+  "height": 900,
+  "bg": "#d8b1a6",
+  "devices": [
+   {
+    "kind": "watch",
+    "color": "#1c1c1e",
+    "screen": "workout",
+    "rot": [
+     -9,
+     -10,
+     0
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 16,
+   "azimuth": -8,
+   "distance": 135,
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "fov": 30
+  }
+ },
+ {
+  "id": "w-perspective-watchface-titanium",
+  "title": "Perspective \u00b7 Titanium",
+  "tags": {
+   "device": "Watch",
+   "angle": "Perspective",
+   "color": "Titanium",
+   "screen": "Watch face",
+   "tone": "Dark"
+  },
+  "width": 900,
+  "height": 900,
+  "bg": "#a3b4c4",
+  "devices": [
+   {
+    "kind": "watch",
+    "color": "#9a9da2",
+    "screen": "watchface",
+    "rot": [
+     -30,
+     24,
+     -8
+    ],
+    "pos": [
+     0,
+     0,
+     0
+    ],
+    "primary": true
+   }
+  ],
+  "cam": {
+   "elevation": 22,
+   "azimuth": 14,
+   "distance": 120,
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "fov": 30
   }
  }
 ]

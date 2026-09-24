@@ -1,11 +1,12 @@
 import seed from "@/data/atlas.json";
 
 export type Point = [number, number];
+export type Device = "iPhone" | "MacBook" | "Watch";
 
 export interface AtlasItem {
   id: string;
   title: string;
-  tags: { angle: string; color: string; screen: string; tone: string };
+  tags: { device: Device; angle: string; color: string; screen: string; tone: string };
   /** Dominant backdrop colour, used as the tile placeholder while loading. */
   bg: string;
   w: number;
@@ -22,14 +23,50 @@ export const assetPath = {
   mask: (id: string) => `/atlas/m/${id}-mask.png`,
 };
 
-export const SAMPLE_SCREENS = ["onboarding", "feed", "paywall", "home", "player", "wallet", "settings"] as const;
-export const sampleScreenPath = (name: string) => `/atlas/ui/${name}.webp`;
+interface SampleScreen {
+  name: string;
+  label: string;
+}
 
-/** Width / height of the phone screen the quads were measured on. */
-export const SCREEN_ASPECT = 393 / 852;
+// One sample-screen set per device, matched to that device's screen shape —
+// a phone screenshot dropped on a Watch (or vice versa) would need heavy
+// letterboxing to look right, so the panel only ever offers the matching set.
+export const SAMPLE_SCREENS: Record<Device, SampleScreen[]> = {
+  iPhone: [
+    { name: "onboarding", label: "onboarding" },
+    { name: "feed", label: "feed" },
+    { name: "paywall", label: "paywall" },
+    { name: "home", label: "home" },
+    { name: "player", label: "player" },
+    { name: "wallet", label: "wallet" },
+    { name: "settings", label: "settings" },
+  ],
+  MacBook: [
+    { name: "dashboard", label: "dashboard" },
+    { name: "shopfront", label: "shopfront" },
+    { name: "editor", label: "editor" },
+  ],
+  Watch: [
+    { name: "watchface", label: "watch face" },
+    { name: "workout", label: "workout" },
+  ],
+};
+
+export const sampleScreenPath = (device: Device, name: string) => `/atlas/ui/${device.toLowerCase()}-${name}.webp`;
+
+/** Screen aspect (w / h) a quad was authored at, from its own corners — not a global constant, since devices differ. */
+export function quadAspect(quad: AtlasItem["quad"]): number {
+  const [tl, tr, br, bl] = quad;
+  const dist = (a: Point, b: Point) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+  const width = (dist(tl, tr) + dist(bl, br)) / 2;
+  const height = (dist(tl, bl) + dist(tr, br)) / 2;
+  return width / height;
+}
+
+export const DEVICES: Device[] = ["iPhone", "MacBook", "Watch"];
 
 export const QUICK_FILTERS = [
-  "Flat lay", "Floating", "Standing", "Perspective", "Duo", "Trio", "Close-up", "Dark", "Paywall", "Onboarding", "Wallet",
+  "iPhone", "MacBook", "Watch", "Flat lay", "Floating", "Standing", "Hero", "Duo", "Trio", "Close-up", "Dark", "Shopfront",
 ];
 
 const haystack = (d: AtlasItem) => [d.title, ...Object.values(d.tags)].join(" ").toLowerCase();
@@ -39,9 +76,11 @@ export function search(items: AtlasItem[], query: string): AtlasItem[] {
   return items.filter((d) => terms.every((t) => haystack(d).includes(t)));
 }
 
-// Deterministic tag overlap: angle 3, screen 2, colour 1, tone 1.
+// Deterministic tag overlap: device 4, angle 3, screen 2, colour 1, tone 1.
+// Device dominates — a MacBook should never rank as "similar" to a Watch.
 function score(a: AtlasItem, b: AtlasItem): number {
   return (
+    (a.tags.device === b.tags.device ? 4 : 0) +
     (a.tags.angle === b.tags.angle ? 3 : 0) +
     (a.tags.screen === b.tags.screen ? 2 : 0) +
     (a.tags.color === b.tags.color ? 1 : 0) +

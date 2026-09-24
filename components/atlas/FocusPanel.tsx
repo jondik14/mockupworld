@@ -54,7 +54,8 @@ export function FocusPanel(p: Props) {
     (async () => {
       setBusy(true);
       try {
-        const screen = choice.kind === "user" ? userScreen!.img : await loadImage(sampleScreenPath(choice.name));
+        const screen =
+          choice.kind === "user" ? userScreen!.img : await loadImage(sampleScreenPath(item.tags.device, choice.name));
         const blob = await comp.render(item, screen);
         if (cancelled) return;
         setResult((prev) => {
@@ -83,10 +84,16 @@ export function FocusPanel(p: Props) {
       .catch(() => p.onStatus("Your browser blocked copying. Use Download instead."));
   };
 
-  const screens: { choice: ScreenChoice; src: string; label: string }[] = [
-    ...(userScreen ? [{ choice: { kind: "user" } as ScreenChoice, src: userScreen.url, label: "Your screen" }] : []),
-    ...SAMPLE_SCREENS.map((name) => ({ choice: { kind: "sample", name } as ScreenChoice, src: sampleScreenPath(name), label: name })),
-  ];
+  const screens: { choice: ScreenChoice; src: string; label: string }[] = item
+    ? [
+        ...(userScreen ? [{ choice: { kind: "user" } as ScreenChoice, src: userScreen.url, label: "Your screen" }] : []),
+        ...SAMPLE_SCREENS[item.tags.device].map((s) => ({
+          choice: { kind: "sample", name: s.name } as ScreenChoice,
+          src: sampleScreenPath(item.tags.device, s.name),
+          label: s.label,
+        })),
+      ]
+    : [];
   const isChosen = (c: ScreenChoice) =>
     c.kind === choice.kind && (c.kind !== "sample" || (choice.kind === "sample" && choice.name === c.name));
 
