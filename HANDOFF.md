@@ -4,6 +4,69 @@ Paper trail for the rebuild. Newest session first. User-facing docs are in
 `README.md` (how to run and add images), `DESIGN.md` (craft bar) and
 `CLAUDE.md` (agent rules).
 
+## Session 4 (Opus): shipped to Vercel, added MacBook + Watch
+
+Luke merged PR #1 himself (via the GitHub UI) and confirmed
+mockupworld.vercel.app went live. Then, on the live site, he asked for more
+realistic variety: "laptops, watches, iPhone duos, all different devices,
+prioritise the latest and newest, shopfront screens, MacBooks in nature,
+iPhones in hands in context."
+
+**What shipped**: MacBook Pro and Apple Watch Ultra as real device types
+(not just iPhone), with 13 new mockups (7 MacBook, 6 Watch) alongside the
+existing 22 iPhone ones — 35 total. Each device type gets its own sample
+screens (MacBook: dashboard/shopfront/editor; Watch: watch face/workout) so
+"drop your own screen" offers the right shape per mockup. Data model gained
+a `device` tag (`lib/atlas.ts`), weighted highest in similarity (4, above
+angle's 3) so a MacBook never surfaces as "similar" to a Watch. Restarted
+the feature branch from `main` first, since PR #1 had already merged (per
+the branch-restart rule for a merged PR).
+
+**Asked but not built — needs a decision or capability this session
+doesn't have**:
+- **Hands holding a device, real shopfronts, "MacBook in nature"**: these
+  need actual photography or AI-generated scenes. This session has no
+  image-generation tool wired up (checked: Figma's Weave integration could
+  do it, but requires Luke to link his Figma account to Weave first at
+  app.weavy.ai, then approve credit spend per run — not something this
+  session can do on its own). A `mb-outdoor-shopfront` scene was attempted
+  with a sky-blue backdrop + green "ground" plane; the ground never reads
+  as grass at any camera angle tried, so it was **dropped from the shipped
+  batch** rather than ship something that overclaims "nature." Recommended
+  to Luke: don't use AI to place a *user's* screen (redraws their pixels,
+  costs money per use, reopens the public-gen boundary `CLAUDE.md` rules
+  out) — the deterministic warp stays as-is for that. AI/photography would
+  only ever generate the *backdrop scenes themselves*, offline, curated by
+  Luke, the same way the sample "watch face"/"dashboard" screens were
+  hand-built here.
+- **iPhone duos**: already existed in the session-3 batch (`duo-flat-stone`,
+  `duo-float-navy`, `duo-stand-blush`) — not new this session, but they
+  satisfy that part of the ask.
+- **"Latest and newest" devices**: interpreted as current-generation
+  silhouettes — iPhone 17 Pro's single flat camera plateau (was 3 separate
+  rings), MacBook Pro's thin-lid/notch shape, Apple Watch Ultra's case. Not
+  tied to exact leaked specs, since none were given.
+
+**Non-obvious bug, worth knowing before touching `render.html` again**:
+`THREE.ExtrudeGeometry`'s bevel extends *past* the shape's nominal face by
+`bevelThickness` — a trim mesh (screen, bezel, crystal, camera plateau…)
+sitting only a fraction of a millimetre off that face is invisible, because
+it's behind the parent's own bevel bulge and loses the depth test. This
+silently broke the MacBook's screen/bezel and the Watch's crystal/screen —
+diagnosed by rendering the mask pass in isolation (confirmed the mesh was
+correctly in the scene graph, positioned, and marked, yet drew nothing) and
+then testing with a deliberately oversized offset. Fixed by giving every
+such mesh clearance greater than its parent's `bevelThickness` (see the
+comments left at each offset in `render.html`). `side: THREE.DoubleSide`
+was tried first and did **not** fix it — this is occlusion, not backface
+culling; don't waste time on that path again.
+
+Also reworked the MacBook's local coordinate frame mid-session (see
+`slab()` in `render.html`): it now matches world axes at `rot:[0,0,0]`
+(Y=up, Z=depth toward the default camera), so `lidAngle` behaves the same
+way regardless of the scene's `rot`/`cam` values, instead of needing a
+mysterious `rot:[90,0,0]` to look right.
+
 ## Session 3 (Opus): Luke's feedback → new-direction prototype
 
 Luke saw the session-2 screenshots and said it's **not how he wants it**:

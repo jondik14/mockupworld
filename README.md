@@ -1,9 +1,10 @@
-# Atlas (working name): iPhone mockups
+# Atlas (working name): device mockups
 
 > Working name. "Mockup World" (mockupworld.co) is an existing mockup site,
 > so the product needs a real name before launch.
 
-An endless, draggable canvas of iPhone mockups (structure modelled on
+An endless, draggable canvas of device mockups — iPhone, MacBook and Apple
+Watch (structure modelled on
 [Public Work by Cosmos](https://www.cosmos.so/public-work)). Click any
 mockup to open its **closest matches** (deterministic tag overlap, dimmed
 in place on the canvas), then **drop your own screen in**. It's placed
